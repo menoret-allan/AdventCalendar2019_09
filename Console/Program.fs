@@ -9,4 +9,7 @@ let main argv =
     let result = input |> compute 1I
     let (_, outputs) = result.Value
     printfn "part1: %A" (outputs |> Seq.head)
+    let resultPart2 = input |> compute 2I
+    let (_, outputsPart2) = resultPart2.Value
+    printfn "part2: %A" (outputsPart2 |> Seq.head)
     0 // return an integer exit code
