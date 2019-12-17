@@ -20,31 +20,31 @@ let ``str calculator without jump/lessthan/equal instructions`` (instructions:st
 
 [<Fact>]
 let ``read output simple instruction`` () = 
-    findInstruction 1 [|4;4;2;3;69|] 0 |> should equal (Some (Output(69)))
+    findInstruction 1 [|4;4;2;3;69|] 0 0 |> should equal (Some (Output(69)))
 
 [<Fact>]
 let ``read output with more digit simple instruction`` () = 
-    findInstruction 1 [|1004;4;2;3;42|] 0 |> should equal (Some (Output(42)))
+    findInstruction 1 [|1004;4;2;3;42|] 0 0 |> should equal (Some (Output(42)))
 
 [<Fact>]
 let ``read output with more digit simple instruction with 1 mode`` () = 
-    findInstruction 1 [|1104;42|] 0 |> should equal (Some (Output(42)))
+    findInstruction 1 [|1104;42|] 0 0 |> should equal (Some (Output(42)))
 
 [<Fact>]
 let ``Check the first input instruction`` () =
-    findInstruction 1 [|3;225|] 0 |> should equal (Some (Input(1,225)))
+    findInstruction 1 [|3;225|] 0 0 |> should equal (Some (Input(1,225)))
 
 [<Fact>]
 let ``Check the second input instruction`` () =
-    findInstruction 1 [|3;7;1;7;6;6;1100;1|] 2 |> should equal (Some (Add(1, 1100, 6)))
+    findInstruction 1 [|3;7;1;7;6;6;1100;1|] 2 0 |> should equal (Some (Add(1, 1100, 6)))
 
 [<Fact>]
 let ``Check the third input instruction`` () =
-    findInstruction 1 [|3;12;1;12;6;6;1101;1;238;12;104;0;1|] 6 |> should equal (Some (Add(1, 238, 12)))
+    findInstruction 1 [|3;12;1;12;6;6;1101;1;238;12;104;0;1|] 6 0 |> should equal (Some (Add(1, 238, 12)))
 
 [<Fact>]
 let ``Check the fourth input instruction`` () =
-    findInstruction 1 [|3;11;1;11;6;6;1101;1;238;225;104;0|] 10 |> should equal (Some (Output(0)))
+    findInstruction 1 [|3;11;1;11;6;6;1101;1;238;225;104;0|] 10 0 |> should equal (Some (Output(0)))
 
 [<Theory>]
 [<InlineData("", 1)>]
@@ -120,6 +120,10 @@ let ``ACCEPTANCE TESTS: compute with all instructions`` (instructions:string, in
     outputs |> should equivalent [expectation]
 
 
-//[<Fact>]
-//let ``Auto copy tests`` () =
-//    Assert.True(true)
+[<Fact>]
+let ``Auto copy tests`` () =
+    let input = "109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99"
+    let result  = input |> compute 0
+    let (_, outputs) = result.Value
+    outputs |> should equivalent (input.Split ',' |> Seq.map int)
+
