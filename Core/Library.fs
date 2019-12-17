@@ -33,11 +33,11 @@ module Computer =
         else instructions.[pos]
 
     let fillWithNewEmpty instructions nb =
-        let newValues= seq { for _ in 1 .. nb -> 0 }
-        instructions |> Seq.append newValues |> Seq.toArray
+        let newValues= seq { for _ in 1 .. nb -> 0 } |> Seq.toArray
+        Array.append instructions newValues
 
     let setValue (instructions: int []) value pos =
-        let nbElemMissing = pos - (1 +  Seq.length instructions)
+        let nbElemMissing = pos - (Seq.length instructions - 1)
         let instruc = if nbElemMissing >= 0 then fillWithNewEmpty instructions nbElemMissing else instructions
         instruc.[pos] <- value
         instruc
@@ -52,7 +52,7 @@ module Computer =
         match getModeX list place with
             | Position -> getVal (pos + place)
             | Immediate -> pos + place
-            | Relative -> (getVal pos + place) + relativeVal
+            | Relative -> (getVal (pos + place)) + relativeVal
 
     let jumpIf cond value position =
         match (value <> 0) = cond with

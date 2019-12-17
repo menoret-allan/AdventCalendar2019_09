@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Tests.fs" />
+    <Compile Include="RegressionTestsFromPreviousIntCode.fs" />
+    <Compile Include="AcceptanceTests.fs" />
+    <Compile Include="UnitTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
